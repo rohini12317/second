@@ -1,0 +1,16 @@
+package example;
+
+import org.testng.annotations.Test;
+
+public class Testclass {
+	
+	@Test
+	public void testcase1() {
+		System.out.println("testng example");
+	}
+	
+	public void testcase2() {
+		System.out.println("testing second exxample");
+	}
+
+}

@@ -1,0 +1,10 @@
+package modifycompany;
+
+public class AutoIT {
+	//Handling alerts
+
+	public static void main(String[] args) {
+		
+	}
+	
+}

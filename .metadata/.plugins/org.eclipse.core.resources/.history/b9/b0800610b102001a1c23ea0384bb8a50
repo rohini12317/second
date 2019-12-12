@@ -1,0 +1,49 @@
+package test;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class Notepad {
+
+	public static void main(String[] args) {
+	
+		Runtime creation=Runtime.getRuntime();
+		
+		
+		try {
+			creation.exec("Notepad");
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String path="D:\\files\\first.txt";
+		
+		FileWriter fr = null;
+		try {
+			fr = new FileWriter(path);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		BufferedWriter br=new BufferedWriter(fr);
+		
+		try {
+			br.write("Rohini");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			br.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
+	}
+
+}

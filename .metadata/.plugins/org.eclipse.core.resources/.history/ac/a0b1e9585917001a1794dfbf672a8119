@@ -1,0 +1,115 @@
+package modifycompany;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Properties;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import frameworks.Commonmethods2;
+import frameworks.Companysearchoperator;
+import frameworks.Companysearchoptions;
+import frameworks.Data2;
+import frameworks.DataUtil;
+import frameworks.EventMethods;
+import moduleMethods.Method1;
+
+public class Modifycompany {
+	static Properties configproperties;
+	public static void main(String[] args) {
+		Commonmethods2.closeExistingbrowsers();
+
+		try {
+			configproperties = DataUtil.getpropertiesfile(propfilepath);
+		} catch (IOException e) {
+			System.out.println("unable to read the data from properties file");
+			System.exit(0);
+		}
+
+		Commonmethods2.launchapplication(configproperties.getProperty("browser"), configproperties.getProperty("url"));
+		Commonmethods2.login(configproperties.getProperty("username"), configproperties.getProperty("password"));
+
+		Method1.navigate_to_companies_page();
+		boolean performFilter=performfiltersearch(Companysearchoptions.NAME,Companysearchoperator.EQUALS,"Test");
+		if(performFilter) {
+			System.out.println("search has returned the results");
+			if(verifycompanysearchresult_byname_equality(companyname)) {
+				System.out.println("results are as per the selection criteria");
+			}else {
+				System.out.println("results are not as per the selection criteria");
+			}
+		}else {
+			System.out.println("search has not returned any records");
+		}
+	}
+	public static boolean verifycompanysearchresult_byname_equality(String companyname) {
+		boolean iscompanynameMatched=true;
+		
+		List<WebElement> allcompanynameElement=Data2.driver.findElement(By.xpath("//table/tbody/tr/td[2]"));
+			for(WebElement CompanyElement:allcompanynameElement) {
+				if(CompanyElement.getText().equalsIgnoreCase(companyname)) {
+					iscompanynameMatched=false;
+					break;
+				}
+				
+			}
+			return iscompanynameMatched;
+		}
+	}
+public static boolean performfiltersearch(Companysearchoptions searchoption,Companysearchoperator searchoperator,String searchvalue) {
+	//select searchoption
+	if(Showfilters()) {
+		EventMethods.click_button(By.xpath(""), "click on search option");
+		switch(searchoption) {
+		case NAME:
+			EventMethods.click_button(By.xpath(""), "select name");
+			break;
+		case WEBSITE:
+			EventMethods.click_button(By.xpath(""), "select website");
+			break;
+		}
+		//select operator
+		EventMethods.click_button(By.xpath(""), "click on operator to show all operators");
+		switch(searchoperator) {
+		case EQUALS:
+			EventMethods.click_button(By.xpath("//span[text()='EQUALS']"), "select equals");
+			break;
+		case CONTAINS:
+			EventMethods.click_button(By.xpath(""), "select contains");
+			break;
+		case STARTS_WITH:
+			EventMethods.click_button(By.xpath(""), "select starts with");
+			break;
+			default:
+				EventMethods.click_button(By.xpath(""), "select ends with");
+				break;
+		}
+		EventMethods.enter_value_in_the_textfield(By.xpath(""), searchvalue,"Enter value in the search option" );
+		EventMethods.click_button(By.xpath(""), "click on search button after entering the related options");
+		if(EventMethods.verify_element_existence(By.xpath("//td[contains(text()='"+searchvalue+"')]"))){
+			return true;
+			
+		}else {
+			return false;
+		}
+	}else {
+		System.out.println("filter options are not populated");
+		return false;
+	}
+}
+		
+		
+
+public static boolean show(){
+	EventMethods.click_button(By.xpath(""), "clicking on show filters");
+	
+	if(EventMethods.verify_element_existence(By.xpath("//div[text()='Filter']"))) {
+		return true;
+	}else {
+		return false;
+	}
+
+}
+}
+

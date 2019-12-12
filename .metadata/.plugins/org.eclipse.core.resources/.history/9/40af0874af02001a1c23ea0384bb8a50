@@ -1,0 +1,23 @@
+package test;
+
+import java.io.IOException;
+
+public class Notepad {
+
+	public static void main(String[] args) {
+	
+		Runtime creation=Runtime.getRuntime();
+		
+		
+		try {
+			creation.exec("Notepad");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+
+	}
+
+}

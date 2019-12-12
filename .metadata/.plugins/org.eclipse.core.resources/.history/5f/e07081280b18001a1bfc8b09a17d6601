@@ -1,0 +1,9 @@
+package modifycompany;
+
+public class Second {
+
+	public static void main(String[] args) {
+		
+	}
+	
+}
